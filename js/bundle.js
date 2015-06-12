@@ -1,0 +1,1 @@
+console.error("Error: Cannot find module '/home/rainer/class-folder/flux/examples/flux-todomvc/js/app.js' from '/home/rainer/class-folder/flux/examples/flux-todomvc'");
