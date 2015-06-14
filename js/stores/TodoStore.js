@@ -76,6 +76,12 @@ function destroyCompleted() {
   }
 }
 
+// function randomButton(id) { //fn is never being called 2:29pm
+//   console.log('todostore fn')
+//   console.log(id);
+//   // _todos[id] = assign({}, _todos[id], _todos[id].text.toUpperCase());
+// }
+
 var TodoStore = assign({}, EventEmitter.prototype, {
 
   /**
@@ -167,6 +173,12 @@ AppDispatcher.register(function(action) {
       destroyCompleted();
       TodoStore.emitChange();
       break;
+
+    // case TodoConstants.TODO_RANDOM_BUTTON:
+    //   text = action.text.trim();
+    //   update(action.id, {text: text});
+    //   TodoStore.emitChange();
+    //   break;
 
     default:
       // no op

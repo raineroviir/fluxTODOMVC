@@ -24,9 +24,8 @@ var TodoTextInput = React.createClass({
 
   getInitialState: function() {
     return {
-      value: this.props.value || ''
+      value: this.props.value || '' //what is this.props.value?
     };
-    console.log(this.props.value); //what is this.props.value?
   },
 
   /**

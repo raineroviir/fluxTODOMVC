@@ -22,6 +22,10 @@ var MainSection = React.createClass({
   /**
    * @return {object}
    */
+  getInitialState: function() {
+    return {title: 'Upper Case'}
+  },
+
   render: function() {
     // This section should be hidden by default
     // and shown when there are todos.
@@ -38,6 +42,7 @@ var MainSection = React.createClass({
 
     return (
       <section id="main">
+        <button onClick={this._onClickFilter}>Show only {this.state.title}</button>
         <input
           id="toggle-all"
           type="checkbox"
@@ -55,6 +60,18 @@ var MainSection = React.createClass({
    */
   _onToggleCompleteAll: function() {
     TodoActions.toggleCompleteAll();
+  },
+
+  _onClickFilter: function() {
+
+    console.log(this.props.allTodos);
+    if (this.state.title === 'Upper Case') {
+      this.setState({title: 'Title Case'});
+    } else if (this.state.title === 'Title Case') {
+      this.setState({title: 'Lower Case'});
+    } else if (this.state.title === 'Lower Case') {
+      this.setState({title: 'Upper Case'});
+    }
   }
 
 });

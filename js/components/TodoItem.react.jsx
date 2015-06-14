@@ -11,6 +11,7 @@ var React = require('react');
 var ReactPropTypes = React.PropTypes;
 var TodoActions = require('../actions/TodoActions');
 var TodoTextInput = require('./TodoTextInput.react.jsx');
+var TodoRandomButton = require('./TodoRandomButton.react.jsx');
 
 var cx = require('react/lib/cx');
 
@@ -39,9 +40,8 @@ var TodoItem = React.createClass({
           className="edit"
           onSave={this._onSave}
           value={todo.text}
-        />;
-    }
-
+        />
+    };
     // List items should get the class 'editing' when editing
     // and 'completed' when marked as completed.
     // Note that 'completed' is a classification while 'complete' is a state.
@@ -51,7 +51,10 @@ var TodoItem = React.createClass({
       <li
         className={cx({
           'completed': todo.complete,
-          'editing': this.state.isEditing
+          'editing': this.state.isEditing,
+          'uppercase': this.state.isUpperCase,
+          'lowercase': this.state.isLowerCase,
+          'titlecase': this.state.isTitleCase
         })}
         key={todo.id}>
         <div className="view">
@@ -64,11 +67,37 @@ var TodoItem = React.createClass({
           <label onDoubleClick={this._onDoubleClick}>
             {todo.text}
           </label>
-          <button className="destroy" onClick={this._onDestroyClick} />
+          <button className="destroy" onClick={this._onDestroyClick}>Delete</button>
+          <button className="caseCycler" onClick={this._caseCycler}>Cycle Case</button>
         </div>
         {input}
+
       </li>
     );
+  },
+
+  _caseCycler: function() {
+    var myText = this.props.todo.text;
+    if (myText[0] === myText[0].toLowerCase() && myText[1] === myText[1].toLowerCase()) {
+      TodoActions.updateText(this.props.todo.id, myText.toUpperCase());
+      this.setState({isLowerCase: false, isUpperCase: true});
+    } else if (myText[0] === myText[0].toUpperCase() && myText[1] === myText[1].toUpperCase()) {
+      function titleCaser(inputText) {
+        var lowerCaser = inputText.toLowerCase();
+        var wordArray = lowerCaser.split(/[ ]/);
+        var modifiedwordArray = wordArray.map(function(string) {
+          return string.charAt(0).toUpperCase() + string.slice(1);
+        });
+        var finishedText = modifiedwordArray.join(' ');
+        return finishedText;
+      }
+      var titlecased = titleCaser(myText);
+      TodoActions.updateText(this.props.todo.id, titlecased);
+      this.setState({isUpperCase: false, isTitleCase: true});
+    } else {
+      TodoActions.updateText(this.props.todo.id, myText.toLowerCase());
+      this.setState({isTitleCase: false, isLowerCase: true});
+    }
   },
 
   _onToggleComplete: function() {

@@ -52,6 +52,24 @@ var TodoActions = {
     });
   },
 
+  toggleCase: function(todo) {
+    var id = todo.id;
+    var actionType;
+    if (todo.uppercase) {
+      actionType = TodoConstants.TODO_UPPERCASE;
+    } else if (todo.titlecase) {
+      actionType = TodoConstants.TODO_TITLECASE;
+    } else if (todo.lowercase) {
+      actionType = TodoConstants.TODO_LOWERCASE;
+    }
+
+    AppDispatcher.dispatch({
+      actionType: actionType,
+      id: id
+    });
+
+  },
+
   /**
    * Mark all ToDos as complete
    */
@@ -78,6 +96,14 @@ var TodoActions = {
     AppDispatcher.dispatch({
       actionType: TodoConstants.TODO_DESTROY_COMPLETED
     });
+  },
+
+  randomButton: function(id, text) {
+    AppDispatcher.dispatch({
+      actionType: TodoConstants.TODO_RANDOM_BUTTON,
+      id: id,
+      text: text
+    })
   }
 
 };
